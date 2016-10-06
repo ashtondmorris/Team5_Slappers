@@ -8,7 +8,7 @@ public class PlayingCards{
     
     public PlayingCards(){
         
-        CardImageSet.cardBack = new Image(getClass().getResource("/assignment2/images/card_back.png").toExternalForm());
+        CardImageSet.cardBack = new Image(getClass().getResource("images/card_back.png").toExternalForm());
         CardImageSet.cardFace = new HashMap<>();
         String[] fileNames = {"_of_clubs", "_of_diamonds", "_of_hearts", "_of_spades"};
         
@@ -21,32 +21,32 @@ public class PlayingCards{
                 fileName = "ace"
                             + fileNames[i]
                             + ".png";
-                cardFace = new Image(getClass().getResource("/assignment2/images/" + fileName).toExternalForm());
+                cardFace = new Image(getClass().getResource("images/" + fileName).toExternalForm());
                 key = "ace" + fileNames[i];
                 }else if(j == 11){
                 fileName =  "jack"
                             + fileNames[i]
                             + ".png";
-                cardFace = new Image(getClass().getResource("/assignment2/images/" + fileName).toExternalForm());
+                cardFace = new Image(getClass().getResource("images/" + fileName).toExternalForm());
                 key = "jack" + fileNames[i];
                 }else if(j == 12){
                 fileName =  "queen"
                             + fileNames[i]
                             + ".png";
-                cardFace = new Image(getClass().getResource("/assignment2/images/" + fileName).toExternalForm());
+                cardFace = new Image(getClass().getResource("images/" + fileName).toExternalForm());
                 key = "queen" + fileNames[i];
                 }else if(j == 13){
                 fileName =  "king"
                             + fileNames[i]
                             + ".png";
-                cardFace = new Image(getClass().getResource("/assignment2/images/" + fileName).toExternalForm());
+                cardFace = new Image(getClass().getResource("images/" + fileName).toExternalForm());
                 key = "king" + fileNames[i];
                 }
                 else{
                 fileName =  j
                             + fileNames[i]
                             + ".png";
-                cardFace = new Image(getClass().getResource("/assignment2/images/" + fileName).toExternalForm());
+                cardFace = new Image(getClass().getResource("images/" + fileName).toExternalForm());
                 key = j + fileNames[i];
                 }
                 CardImageSet.cardFace.put(key, cardFace);
