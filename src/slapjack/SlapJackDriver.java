@@ -17,11 +17,17 @@ import java.util.ResourceBundle;
  */
 public class SlapJackDriver {
 
-    Deck deck;
-    public int numDecks; // number of decks
-    public int numPlayers;
+    //public Deck deck;
+    
+    public int numDecks = 1; // number of decks
+    public int numPlayers = 2;
     ArrayList<Card> masterDeck; // deck containing each of the 52 card decks. Also used as the temporary pile.
-    boolean isWinner;
+    ArrayList<Player> players; // so that we can loop through the players and change whose turn it is.
+    boolean isWinner = false;
+    Player player1;
+    Player player2;
+    //Player player3;
+    //Player player4;
     
     public SlapJackDriver(){
         playGame();
@@ -29,9 +35,21 @@ public class SlapJackDriver {
     
     // starts a new game of SlapJack and deals with the gameplay
     private void playGame(){
-        reset();
+        PlayingCards p = new PlayingCards();
+        masterDeck = new ArrayList<>();
         makeDecks();
+        
+        player1 = new Player(1);
+        player2 = new Player(2);
+        
+        players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2); // 
         dealCards();
+        
+        players.get(0).isPlayersTurn = true; // initially, it is player 1's turn.
+//        player3 = new Player();
+//        player4 = new Player();
         //continue game logic
         // should run while there is no winner
     }
@@ -40,25 +58,43 @@ public class SlapJackDriver {
     // and added them to the masterDeck
     // and shuffled the masterDeck
     private void makeDecks(){
-        
+        System.out.println("calling makeDecks()");
+        for(int i = 0; i < numPlayers; i++){
+            Deck deck = new Deck();
+            for(int j = 0; j < deck.getDeck().size(); j++){
+                masterDeck.add(deck.getDeck().remove(0));
+            }
+        }
     }
     
     // deals a card to each player's hand until there are no more cards left in the masterDeck
     public void dealCards(){
-        
-    }
-    
-    //reset all parameters for a new game
-    private void reset(){
-        
+        System.out.println("calling dealCards()");
+        for(int i = 0; i < masterDeck.size(); i++){
+            for(int j = 0; j < players.size(); j++){
+                players.get(j).hand.add(masterDeck.remove(0));
+            }
+        }
     }
     
     //called when a player slaps the pile. Method checks the top card of the pile for a jack.
     //if the top card was a jack, that player wins that pile,
     //otherwise the player who slapped the non-jack has to give a card to the player
     //whose card they slapped.
-    private void checkPile(){
+    public void checkPile(){
         
+    }
+    
+    // will be called whenever a player calls their turnCard method
+    public void changeTurn(int nextPlayer){
+        players.get(nextPlayer).isPlayersTurn = true;
+        resetHasSlapped();
+    }
+    
+    private void resetHasSlapped(){
+        for(int i = 0; i < players.size(); i++){
+            players.get(i).slapped = false;
+        }
     }
     
     //checks to see if there is a player with all the cards from masterDeck
