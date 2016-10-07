@@ -8,6 +8,7 @@ public class Player {
     public boolean isPlaying; // whether or not the player is still in the round
     public boolean slapped; // flips when a player has slapped the pile
     public boolean isPlayersTurn = false; // determines if the player can turn their card
+    public static boolean canSlap = false; //determines which player slapped the card first
     private final int playerNumber;
     private ArrayList<Card> hand; // the player's hand
     
@@ -39,7 +40,7 @@ public class Player {
     
     public Card getCardFromHand(){
         if(!this.hand.isEmpty()){ // if this players hand is not empty
-            return this.hand.get(0);
+            return this.hand.remove(0);
         }
         else{
             return null; // here we need to do something for when a player has no more cards
@@ -53,13 +54,16 @@ public class Player {
     //called when the player presses the key for slapping
     //this method will set their slapped boolean to true
     public void slapCard(){
-        if(slapped != true){
+        if(slapped != true && canSlap == true){
             System.out.println(playerNumber + " slapped");
             slapped = true;
         }
         else{
             System.out.println(playerNumber + " has already slapped this turn");
         }
+        
+        
+        
     }
     
     // for shuffling the players hand when they've won a hand or if another player
@@ -73,6 +77,7 @@ public class Player {
         if(isPlayersTurn){
             System.out.println(playerNumber + " turned their card");
             isPlayersTurn = false;
+            canSlap = true;
         } 
         //return hand.remove(0); 
         return null;

@@ -23,6 +23,7 @@ public class SlapJackDriver {
     public int numPlayers = 2;
     ArrayList<Card> masterDeck; // deck containing each of the 52 card decks. Also used as the temporary pile.
     ArrayList<Player> players; // so that we can loop through the players and change whose turn it is.
+    ArrayList<Boolean> firstSlap;
     boolean isWinner = false;
     Player player1;
     Player player2;
@@ -41,10 +42,12 @@ public class SlapJackDriver {
         
         player1 = new Player(1);
         player2 = new Player(2);
-        
+        firstSlap = new ArrayList<>();
         players = new ArrayList<>();
         players.add(player1);
         players.add(player2); // 
+        firstSlap.add(player1.slapped);
+        firstSlap.add(player2.slapped);
         dealCards(); // will be called in the controller
         
         players.get(0).isPlayersTurn = true; // initially, it is player 1's turn.
@@ -59,30 +62,73 @@ public class SlapJackDriver {
     // and shuffled the masterDeck
     private void makeDecks(){
         System.out.println("calling makeDecks()");
-        for(int i = 0; i < numPlayers; i++){
+        for(int i = 0; i < numDecks; i++){
             Deck deck = new Deck();
-            for(int j = 0; j < deck.getDeck().size(); j++){
+            deck.shuffle();
+            System.out.println(deck.getDeck().toString());
+            for(int j = 0; j < 52; j++){
                 masterDeck.add(deck.getDeck().remove(0));
             }
         }
+        
+        System.out.println(masterDeck.size());
     }
     
     // deals a card to each player's hand until there are no more cards left in the masterDeck
     public void dealCards(){
         System.out.println("calling dealCards()");
-        for(int i = 0; i < masterDeck.size(); i++){
-            for(int j = 0; j < players.size(); j++){
+        
+        for(int i = 0; i < 52/numPlayers; i++){
+            for(int j = 0; j < numPlayers; j++){
                 players.get(j).setCardInHand(masterDeck.remove(0));
             }
         }
+        
+        
+        System.out.println(players.get(0).getHand().size());
+        System.out.println(players.get(1).getHand().size());
+      
     }
     
     //called when a player slaps the pile. Method checks the top card of the pile for a jack.
     //if the top card was a jack, that player wins that pile,
     //otherwise the player who slapped the non-jack has to give a card to the player
     //whose card they slapped.
-    public void checkPile(){
+    public void checkPile(int player){
+        Player.canSlap = false;
+        int size = masterDeck.size();
+    
+        if(masterDeck.get(masterDeck.size() -1).face() == Card.Face.JACK)
+        {
+            System.out.println(player + " slapped a jack");
+            for (int i = 0; i < size; i++)
+            {
+               players.get(player).setCardInHand(masterDeck.remove(0));
+               System.out.print(players.get(player).getHand().get(players.get(player).getHand().size()-1).toString());
+            } 
+               
+            players.get(player).shuffleHand();
+        }
         
+        else
+        {
+            switch (player)
+            {
+                case 0:
+                    if(player1.giveCard(player2))
+                    System.out.println(player + " give card");
+                    else
+                        player2.
+
+                    break;
+                case 1:
+                    player2.giveCard(player1);
+                    System.out.println(player + " give card");
+
+                    break;
+            }
+            
+        }
     }
     
     // will be called whenever a player calls their turnCard method
@@ -102,11 +148,22 @@ public class SlapJackDriver {
     //sets all players' isPlaying to false
     //calls declare winner
     private void isWinner(){
-        
+        if (player1.isWinner)
+            declareWinner(0);
+        else if (player2.isWinner)
+            declareWinner(1);
     }
     
     //gets the player who won and declares them the winner
-    private void declareWinner(){
+    private void declareWinner(int player){
         
     }
+    
+    public void addToDeck(int player)
+    {
+       System.out.println(players.get(player).getHand().get(0).toString());
+       masterDeck.add(players.get(player).getCardFromHand());
+       
+    }
+    
 }

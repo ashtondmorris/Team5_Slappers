@@ -19,13 +19,7 @@ public class Deck extends GroupOfCards {
         playingCards = new PlayingCards();
     } // end Deck constructor
     
-    public void random21()
-    {
-        while(this.getDeck().size() > 21){
-            this.getDeck().remove(0);
-        }
-    }
-    
+     
     public void shuffle(){
         Collections.shuffle(this.getDeck());
     }

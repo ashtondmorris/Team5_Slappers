@@ -68,9 +68,14 @@ public class SlapJackFXMLController implements Initializable {
         //System.out.println("slap");
         switch(letter){
             case "S": slapJackDriver.player1.slapCard();
-                      slapJackDriver.checkPile();
+                      if(Player.canSlap == true)
+                      slapJackDriver.checkPile(0);
+                      
                         break;
-            case "L": slapJackDriver.player2.slapCard(); break;
+            case "L": slapJackDriver.player2.slapCard();  
+                      if(Player.canSlap == true)
+                      slapJackDriver.checkPile(1);
+                       break;
         }
     }
     
@@ -79,12 +84,14 @@ public class SlapJackFXMLController implements Initializable {
         switch(letter){
             case "A":   if(slapJackDriver.player1.isPlayersTurn){
                             slapJackDriver.player1.turnCard();
+                            slapJackDriver.addToDeck(0);
                             slapJackDriver.changeTurn(1); // change whose turn it is
                         } else {
                             System.out.println(slapJackDriver.player1.isPlayersTurn);
                         }break;
             case "K":   if(slapJackDriver.player2.isPlayersTurn){
                             slapJackDriver.player2.turnCard();
+                            slapJackDriver.addToDeck(1);
                             slapJackDriver.changeTurn(0); // change whose turn it is
                         } else {
                             System.out.println(slapJackDriver.player2.isPlayersTurn);
