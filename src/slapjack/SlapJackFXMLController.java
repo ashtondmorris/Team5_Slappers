@@ -50,6 +50,7 @@ public class SlapJackFXMLController implements Initializable {
         slapJackDriver = new SlapJackDriver();
         player1CardImages = new ArrayList<>();
         player2CardImages = new ArrayList<>();
+        
         //player1Hand.setOnMouseClicked(e -> slap()); // just testing lambda expression and seeing if i have access to the correct instance of the fxml objects
     }
     
@@ -101,10 +102,10 @@ public class SlapJackFXMLController implements Initializable {
         player2Hand.getChildren().clear(); // clear the stackpane if there was anything there
 
             for(int i = 0; i < slapJackDriver.numPlayers; i++){
-                for(int j = 0; j < slapJackDriver.players.get(i).hand.size(); j++){
-                    slapJackDriver.players.get(i).hand.get(j).flipToBack();  
+                for(int j = 0; j < slapJackDriver.players.get(i).getHand().size(); j++){
+                    slapJackDriver.players.get(i).getHand().get(j).flipToBack();  
                     iView = new ImageView();
-                    iView.setImage(slapJackDriver.players.get(i).hand.get(j).getImage());                   
+                    iView.setImage(slapJackDriver.players.get(i).getHand().get(j).getImage());                   
                     iView.setFitWidth(40);
                     iView.setPreserveRatio(true);
                     iView.setSmooth(true);
@@ -115,7 +116,23 @@ public class SlapJackFXMLController implements Initializable {
                     }
                 }
             }
+    } // end updateCardImages()
+    
+    private void animateGiveCard(){
+        
     }
     
+    private void animateDealCards(){
+        slapJackDriver.dealCards();
+        // do animation
+    }
+    
+    private void animateShuffleHand(){
+        
+    }
+    
+    private void animateAddCardToPile(){
+        
+    } 
     
 }

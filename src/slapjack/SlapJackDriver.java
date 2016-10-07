@@ -37,7 +37,7 @@ public class SlapJackDriver {
     private void playGame(){
         PlayingCards p = new PlayingCards();
         masterDeck = new ArrayList<>();
-        makeDecks();
+        makeDecks(); // will be called in the controller
         
         player1 = new Player(1);
         player2 = new Player(2);
@@ -45,7 +45,7 @@ public class SlapJackDriver {
         players = new ArrayList<>();
         players.add(player1);
         players.add(player2); // 
-        dealCards();
+        dealCards(); // will be called in the controller
         
         players.get(0).isPlayersTurn = true; // initially, it is player 1's turn.
 //        player3 = new Player();
@@ -72,7 +72,7 @@ public class SlapJackDriver {
         System.out.println("calling dealCards()");
         for(int i = 0; i < masterDeck.size(); i++){
             for(int j = 0; j < players.size(); j++){
-                players.get(j).hand.add(masterDeck.remove(0));
+                players.get(j).setCardInHand(masterDeck.remove(0));
             }
         }
     }
