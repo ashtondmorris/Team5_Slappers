@@ -106,10 +106,11 @@ public class SlapJackDriver {
             for (int i = 0; i < size; i++)
             {
                players.get(player).setCardInHand(masterDeck.remove(0));
-               System.out.print(players.get(player).getHand().get(players.get(player).getHand().size()-1).toString());
+               System.out.print(players.get(player).getHand().get(players.get(player).getHand().size()-1).toString()); // this command is huge. we're very proud of it. it's a beautiful thing.
             } 
                
             players.get(player).shuffleHand();
+            controller.animateShuffleHand(players.get(player));
         }
         
         else
@@ -140,8 +141,10 @@ public class SlapJackDriver {
     public void changeTurn(int nextPlayer){
         players.get(nextPlayer).isPlayersTurn = true;
         resetHasSlapped();
+        controller.animateShowCurrentPlayer(nextPlayer);
     }
     
+    // rests each player's slapped booleans for the next turn.
     private void resetHasSlapped(){
         for(int i = 0; i < players.size(); i++){
             players.get(i).slapped = false;
@@ -159,21 +162,26 @@ public class SlapJackDriver {
             declareWinner(1);
     }
     
-    //gets the player who won and declares them the winner
+    //gets the player who won the game and declares them the winner
     private void declareWinner(int player){
         System.out.println("player " + player + " wins!");
+        endRound();
         // need to make it so that the game is over and we show which player won
         // the players should no longer be able to turn or slap cards.
+        controller.animateDeclarationOfWinner(players.get(player)); //calling an animation
     }
     
+    // sets the static isPlaying boolean to false, so that the players cannot slap or turn card anymore after someone has won
     public void endRound(){
         Player.isPlaying = false;
     }
     
+    // when a player turns a card and adds that card to the masterDeck pile
     public void addToDeck(int player)
     {
        System.out.println(players.get(player).getHand().get(0).toString());
        masterDeck.add(players.get(player).getCardFromHand());
+       controller.animateAddCardToPile(players.get(player)); // calling an animation
     }
     
 }

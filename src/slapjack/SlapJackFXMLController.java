@@ -116,8 +116,8 @@ public class SlapJackFXMLController implements Initializable {
                     iView.setSmooth(true);
                     //iView.setTranslateY();
                     switch(i){
-                        case 0: player1CardImages.add(0, iView); break;
-                        case 1: player2CardImages.add(0, iView); break;
+                        case 0: player1CardImages.add(iView); break;
+                        case 1: player2CardImages.add(iView); break;
                     }
                 }
             }
@@ -140,13 +140,21 @@ public class SlapJackFXMLController implements Initializable {
     }
     
     // takes in the players hand and animates them shuffling their deck some how
-    public void animateShuffleHand(ArrayList<Card> hand){
+    public void animateShuffleHand(Player player){
         
     }
     
     //
-    public void animateAddCardToPile(){
+    public void animateAddCardToPile(Player player){
         
     } 
+    
+    public void animateShowCurrentPlayer(int currentPlayer){
+        
+    }
+    
+    public void animateDeclarationOfWinner(Player player){
+        
+    }
     
 }
