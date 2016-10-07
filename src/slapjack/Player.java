@@ -5,9 +5,10 @@ import java.util.Collections;
 
 public class Player {
 
-    public boolean isPlaying; // whether or not the player is still in the round
+    public static boolean isPlaying = true; // whether or not the players are playing
     public boolean slapped; // flips when a player has slapped the pile
     public boolean isPlayersTurn = false; // determines if the player can turn their card
+    public boolean isWinner = false;
     public static boolean canSlap = false; //determines which player slapped the card first
     private final int playerNumber;
     private ArrayList<Card> hand; // the player's hand
@@ -25,11 +26,13 @@ public class Player {
     // if the player has cards,
     // gives a card the calling objects hand to the player whose card they slapped.
     // how to use: from driver class, player1.giveCard(player2);
-    public void giveCard(Player player){
+    public boolean giveCard(Player player){
         // needs more code
         if(!this.hand.isEmpty()){ // if this players hand is not empty
             player.setCardInHand(this.hand.remove(0));
+            return true;
         } else {
+            return false;
             // call a method or do something for when this player is out of cards
         }
     }
@@ -54,16 +57,20 @@ public class Player {
     //called when the player presses the key for slapping
     //this method will set their slapped boolean to true
     public void slapCard(){
-        if(slapped != true && canSlap == true){
-            System.out.println(playerNumber + " slapped");
-            slapped = true;
+        if(isPlaying){
+            
+
+            if(slapped != true && canSlap == true){
+                System.out.println(playerNumber + " slapped");
+                slapped = true;
+            }
+            else{
+                System.out.println(playerNumber + " has already slapped this turn");
+            }
         }
-        else{
-            System.out.println(playerNumber + " has already slapped this turn");
+        else {
+            System.out.println("the round is over, isPlaying = " + isPlaying);
         }
-        
-        
-        
     }
     
     // for shuffling the players hand when they've won a hand or if another player
@@ -73,13 +80,16 @@ public class Player {
     }
     
     //only if it's the player's turn (isPlayersTurn == true)
-    public Card turnCard(){
-        if(isPlayersTurn){
-            System.out.println(playerNumber + " turned their card");
-            isPlayersTurn = false;
-            canSlap = true;
-        } 
-        //return hand.remove(0); 
-        return null;
+    public void turnCard(){
+        if(isPlaying){
+            if(isPlayersTurn){
+                System.out.println(playerNumber + " turned their card");
+                isPlayersTurn = false;
+                canSlap = true;
+            }
+        }
+        else {
+            System.out.println("Cannot turn card, round is over. isPlaying = " + isPlaying);
+        }
     }
 }

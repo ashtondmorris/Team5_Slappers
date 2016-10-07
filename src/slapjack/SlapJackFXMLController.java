@@ -37,8 +37,8 @@ public class SlapJackFXMLController implements Initializable {
     private SlapJackDriver slapJackDriver;
     private Stage stage;
     private Scene scene;
-    private ArrayList<ImageView> player1CardImages;
-    private ArrayList<ImageView> player2CardImages;
+    public ArrayList<ImageView> player1CardImages;
+    public ArrayList<ImageView> player2CardImages;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -46,11 +46,9 @@ public class SlapJackFXMLController implements Initializable {
     }    
     
     private void initiate() {
-
-        slapJackDriver = new SlapJackDriver();
-        player1CardImages = new ArrayList<>();
+        player1CardImages = new ArrayList<>(); // I had to put these (player1CardImage and player2CardImage instantiation) above the instantiation of the slapJackDriver object, because when i instantiate the driver object it never reached the code below it. This is because when I instantiate the driver, the driver starts running it's code which includes using the controller which instantiated it (this controller). Basically nothing after the driver instantiation gets executed because the process goes through to the driver and never comes back.
         player2CardImages = new ArrayList<>();
-        
+        slapJackDriver = new SlapJackDriver(this); 
         //player1Hand.setOnMouseClicked(e -> slap()); // just testing lambda expression and seeing if i have access to the correct instance of the fxml objects
     }
     
@@ -103,16 +101,16 @@ public class SlapJackFXMLController implements Initializable {
     // and puts each player's card's images into an arraylist so that
     // we can easily animate each event at a later time from a different method.
     //this method will only be called once when the players have their cards the first time.
-    private void updateCardImages(){
+    public void updateCardImages(ArrayList<Player> players){
         
         player1Hand.getChildren().clear(); // clear the stackpane if there was anything there
         player2Hand.getChildren().clear(); // clear the stackpane if there was anything there
 
-            for(int i = 0; i < slapJackDriver.numPlayers; i++){
-                for(int j = 0; j < slapJackDriver.players.get(i).getHand().size(); j++){
-                    slapJackDriver.players.get(i).getHand().get(j).flipToBack();  
+            for(int i = 0; i < 2; i++){
+                for(int j = 0; j < players.get(i).getHand().size(); j++){
+                    players.get(i).getHand().get(j).flipToFace();  
                     iView = new ImageView();
-                    iView.setImage(slapJackDriver.players.get(i).getHand().get(j).getImage());                   
+                    iView.setImage(players.get(i).getHand().get(j).getImage());                   
                     iView.setFitWidth(40);
                     iView.setPreserveRatio(true);
                     iView.setSmooth(true);
@@ -125,20 +123,29 @@ public class SlapJackFXMLController implements Initializable {
             }
     } // end updateCardImages()
     
-    private void animateGiveCard(){
+    // takes in the giver and receiver of the giveCard method.
+    // animates the process of one player giving the other player their card
+    public void animateGiveCard(Player giver, Player receiver){
         
     }
     
-    private void animateDealCards(){
-        slapJackDriver.dealCards();
+    // takes in the players and animates the process of dealing out the cards
+    public void animateDealCards(ArrayList<Player> players){
+        updateCardImages(players);
+        System.out.println("Dealing cards animation...");
+        System.out.println("Player 1's top card: " + players.get(0).getHand().get(0).toString());
+        System.out.println("Player1CardImages top card: " + player1CardImages.get(0).toString());
+        player1Hand.getChildren().add(player1CardImages.get(0));
         // do animation
     }
     
-    private void animateShuffleHand(){
+    // takes in the players hand and animates them shuffling their deck some how
+    public void animateShuffleHand(ArrayList<Card> hand){
         
     }
     
-    private void animateAddCardToPile(){
+    //
+    public void animateAddCardToPile(){
         
     } 
     

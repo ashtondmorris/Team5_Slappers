@@ -29,8 +29,10 @@ public class SlapJackDriver {
     Player player2;
     //Player player3;
     //Player player4;
+    SlapJackFXMLController controller;
     
-    public SlapJackDriver(){
+    public SlapJackDriver(SlapJackFXMLController controller){
+        this.controller = controller;
         playGame();
     }
     
@@ -38,7 +40,7 @@ public class SlapJackDriver {
     private void playGame(){
         PlayingCards p = new PlayingCards();
         masterDeck = new ArrayList<>();
-        makeDecks(); // will be called in the controller
+        makeDecks(); 
         
         player1 = new Player(1);
         player2 = new Player(2);
@@ -87,7 +89,7 @@ public class SlapJackDriver {
         
         System.out.println(players.get(0).getHand().size());
         System.out.println(players.get(1).getHand().size());
-      
+        controller.animateDealCards(players); // we have to pass in the correct instance of players that we want to use, otherwise if we call players.get(0) from the controller it will be null for some reason :( But this works.
     }
     
     //called when a player slaps the pile. Method checks the top card of the pile for a jack.
@@ -115,19 +117,22 @@ public class SlapJackDriver {
             switch (player)
             {
                 case 0:
-                    if(player1.giveCard(player2))
-                    System.out.println(player + " give card");
-                    else
-                        player2.
-
+                    if(player1.giveCard(player2)){
+                        System.out.println(player + " give card");
+                    }
+                    else{
+                        player2.isWinner = true;
+                    }
                     break;
                 case 1:
-                    player2.giveCard(player1);
-                    System.out.println(player + " give card");
-
+                    if(player2.giveCard(player1)){
+                        System.out.println(player + " give card");
+                    }
+                    else {
+                        player1.isWinner = true;
+                    }
                     break;
-            }
-            
+            }   
         }
     }
     
@@ -156,14 +161,19 @@ public class SlapJackDriver {
     
     //gets the player who won and declares them the winner
     private void declareWinner(int player){
-        
+        System.out.println("player " + player + " wins!");
+        // need to make it so that the game is over and we show which player won
+        // the players should no longer be able to turn or slap cards.
+    }
+    
+    public void endRound(){
+        Player.isPlaying = false;
     }
     
     public void addToDeck(int player)
     {
        System.out.println(players.get(player).getHand().get(0).toString());
        masterDeck.add(players.get(player).getCardFromHand());
-       
     }
     
 }

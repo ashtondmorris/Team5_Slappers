@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 public class SlapJack extends Application  {
     
+    //public static SlapJackFXMLController controller;
+    
     @Override
     public void start(Stage primaryStage) {
         try{
