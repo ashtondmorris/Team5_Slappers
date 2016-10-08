@@ -92,4 +92,9 @@ public class Player {
             System.out.println("Cannot turn card, round is over. isPlaying = " + isPlaying);
         }
     }
+    
+    //returns the count of the number of cards in hand
+    public int getCardCount() {
+        return hand.size();
+    }
 }

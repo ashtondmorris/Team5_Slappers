@@ -101,7 +101,13 @@ public class SlapJackDriver {
         int size = masterDeck.size();
     
         if(masterDeck.get(masterDeck.size() -1).face() == Card.Face.JACK)
-        {
+        {            
+            int otherPlayer = -1;
+            if (player == 0)
+                otherPlayer = 1;
+            else 
+                otherPlayer = 0;
+            
             System.out.println(player + " slapped a jack");
             for (int i = 0; i < size; i++)
             {
@@ -111,6 +117,12 @@ public class SlapJackDriver {
                
             players.get(player).shuffleHand();
             controller.animateShuffleHand(players.get(player));
+            
+            //check if the other player had no cards
+            if (players.get(otherPlayer).getCardCount() == 0) {
+                players.get(player).isWinner = true;
+                isWinner();
+            }
         }
         
         else
@@ -123,6 +135,7 @@ public class SlapJackDriver {
                     }
                     else{
                         player2.isWinner = true;
+                        isWinner();
                     }
                     break;
                 case 1:
@@ -131,6 +144,7 @@ public class SlapJackDriver {
                     }
                     else {
                         player1.isWinner = true;
+                        isWinner();
                     }
                     break;
             }   
@@ -138,10 +152,11 @@ public class SlapJackDriver {
     }
     
     // will be called whenever a player calls their turnCard method
-    public void changeTurn(int nextPlayer){
+    public void changeTurn(int nextPlayer){       
         players.get(nextPlayer).isPlayersTurn = true;
         resetHasSlapped();
-        controller.animateShowCurrentPlayer(nextPlayer);
+        controller.animateShowCurrentPlayer(nextPlayer);         
+        System.out.println("It is Player " + nextPlayer + "'s turn. ");
     }
     
     // rests each player's slapped booleans for the next turn.
@@ -178,10 +193,11 @@ public class SlapJackDriver {
     
     // when a player turns a card and adds that card to the masterDeck pile
     public void addToDeck(int player)
-    {
-       System.out.println(players.get(player).getHand().get(0).toString());
-       masterDeck.add(players.get(player).getCardFromHand());
-       controller.animateAddCardToPile(players.get(player)); // calling an animation
+    {        
+        System.out.println(players.get(player).getHand().get(0).toString());
+        masterDeck.add(players.get(player).getCardFromHand());
+        controller.animateAddCardToPile(players.get(player)); // calling an animation
+        System.out.println("Player " + player + " has " + players.get(player).getCardCount() + " cards in their hand.");
     }
     
 }

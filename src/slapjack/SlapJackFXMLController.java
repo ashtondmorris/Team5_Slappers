@@ -83,14 +83,24 @@ public class SlapJackFXMLController implements Initializable {
             case "A":   if(slapJackDriver.player1.isPlayersTurn){
                             slapJackDriver.player1.turnCard();
                             slapJackDriver.addToDeck(0);
-                            slapJackDriver.changeTurn(1); // change whose turn it is
+                            // change whose turn it is
+                            if (slapJackDriver.player2.getCardCount() == 0) {
+                                slapJackDriver.changeTurn(0);
+                            } else {
+                                slapJackDriver.changeTurn(1);
+                            }
                         } else {
                             System.out.println(slapJackDriver.player1.isPlayersTurn);
                         }break;
             case "K":   if(slapJackDriver.player2.isPlayersTurn){
                             slapJackDriver.player2.turnCard();
                             slapJackDriver.addToDeck(1);
-                            slapJackDriver.changeTurn(0); // change whose turn it is
+                            // change whose turn it is
+                            if (slapJackDriver.player1.getCardCount() == 0) {
+                                slapJackDriver.changeTurn(1);
+                            } else {
+                                slapJackDriver.changeTurn(0);
+                            }
                         } else {
                             System.out.println(slapJackDriver.player2.isPlayersTurn);
                         } break;
