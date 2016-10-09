@@ -3,6 +3,10 @@ package slapjack;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class SlapJackFXMLController implements Initializable {
@@ -39,6 +44,9 @@ public class SlapJackFXMLController implements Initializable {
     private Scene scene;
     public ArrayList<ImageView> player1CardImages;
     public ArrayList<ImageView> player2CardImages;
+    public ArrayList<ArrayList<ImageView>> playerCardImages;
+    public ArrayList<StackPane> playerHands;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,6 +56,12 @@ public class SlapJackFXMLController implements Initializable {
     private void initiate() {
         player1CardImages = new ArrayList<>(); // I had to put these (player1CardImage and player2CardImage instantiation) above the instantiation of the slapJackDriver object, because when i instantiate the driver object it never reached the code below it. This is because when I instantiate the driver, the driver starts running it's code which includes using the controller which instantiated it (this controller). Basically nothing after the driver instantiation gets executed because the process goes through to the driver and never comes back.
         player2CardImages = new ArrayList<>();
+        playerCardImages = new ArrayList<>();
+        playerHands = new ArrayList<>();
+        playerCardImages.add(player1CardImages);
+        playerCardImages.add(player2CardImages);
+        playerHands.add(player1Hand);
+        playerHands.add(player2Hand);
         slapJackDriver = new SlapJackDriver(this); 
         //player1Hand.setOnMouseClicked(e -> slap()); // just testing lambda expression and seeing if i have access to the correct instance of the fxml objects
     }
@@ -115,20 +129,23 @@ public class SlapJackFXMLController implements Initializable {
         
         player1Hand.getChildren().clear(); // clear the stackpane if there was anything there
         player2Hand.getChildren().clear(); // clear the stackpane if there was anything there
+        player1CardImages.clear();
+        player2CardImages.clear();
 
             for(int i = 0; i < 2; i++){
                 for(int j = 0; j < players.get(i).getHand().size(); j++){
-                    players.get(i).getHand().get(j).flipToFace();  
+                    players.get(i).getHand().get(j).flipToBack();  
                     iView = new ImageView();
                     iView.setImage(players.get(i).getHand().get(j).getImage());                   
-                    iView.setFitWidth(40);
+                    iView.setFitWidth(80);
                     iView.setPreserveRatio(true);
                     iView.setSmooth(true);
                     //iView.setTranslateY();
-                    switch(i){
-                        case 0: player1CardImages.add(iView); break;
-                        case 1: player2CardImages.add(iView); break;
-                    }
+                    playerCardImages.get(i).add(iView);
+//                    switch(i){
+//                        case 0: player1CardImages.add(iView); break;
+//                        case 1: player2CardImages.add(iView); break;
+//                    }
                 }
             }
     } // end updateCardImages()
@@ -141,11 +158,50 @@ public class SlapJackFXMLController implements Initializable {
     
     // takes in the players and animates the process of dealing out the cards
     public void animateDealCards(ArrayList<Player> players){
+        
+        double yLocation;
+        double xLocation;
+
+        SequentialTransition sequence = new SequentialTransition();
         updateCardImages(players);
+        
         System.out.println("Dealing cards animation...");
-        System.out.println("Player 1's top card: " + players.get(0).getHand().get(0).toString());
-        System.out.println("Player1CardImages top card: " + player1CardImages.get(0).toString());
-        player1Hand.getChildren().add(player1CardImages.get(0));
+        
+        System.out.print("Player 1's top card: " + players.get(0).getHand().get(0).toString());
+        System.out.print("Player 2's top card: " + players.get(1).getHand().get(0).toString());
+               
+        for(int j = 0; j < playerCardImages.get(0).size(); j++){ // each card
+            for(int i = 0; i < playerCardImages.size(); i++){ // each player
+                
+                System.out.print("Player "+ i +"'s card: " + players.get(i).getHand().get(j).toString());
+        
+                playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j));
+                
+                yLocation = playerCardImages.get(i).get(j).getTranslateX();
+                xLocation = playerCardImages.get(i).get(j).getTranslateX();
+                        
+                TranslateTransition translate = new TranslateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
+                translate.setFromX(Math.pow(-1,i)*130);
+                translate.setFromY(-170);
+                translate.setToX(xLocation);
+                translate.setToY(yLocation);
+                translate.setCycleCount(1);
+                translate.setAutoReverse(false);
+
+                RotateTransition rotate = new RotateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
+                rotate.setByAngle((Math.random() * 2) * Math.pow(-1, i));
+                rotate.setCycleCount(1);
+                rotate.setAutoReverse(false);
+                
+                
+                ParallelTransition parallelTranny = new ParallelTransition();
+
+                parallelTranny.getChildren().addAll(translate, rotate);
+                sequence.getChildren().add(parallelTranny);
+            }
+            
+        }
+        sequence.play();
         // do animation
     }
     

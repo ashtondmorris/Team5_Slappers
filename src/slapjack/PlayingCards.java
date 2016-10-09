@@ -8,7 +8,7 @@ public class PlayingCards{
     
     public PlayingCards(){
         
-        CardImageSet.cardBack = new Image(getClass().getResource("images/card_back.png").toExternalForm());
+        CardImageSet.cardBack = new Image(getClass().getResource("images/card_back2.png").toExternalForm());
         CardImageSet.cardFace = new HashMap<>();
         String[] fileNames = {"_of_clubs", "_of_diamonds", "_of_hearts", "_of_spades"};
         

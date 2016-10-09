@@ -41,6 +41,9 @@ public class SlapJack extends Application  {
         primaryStage.setTitle("Slap Jack");
         primaryStage.getIcons().add(new Image(getClass().getResource("images/Ace_Spades_Icon.png").toExternalForm()));
     
+        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(700);
+        
         primaryStage.show();
         
         } catch (Exception ex) {
