@@ -85,7 +85,7 @@ public class Player {
             if(isPlayersTurn){
                 System.out.println(playerNumber + " turned their card");
                 isPlayersTurn = false;
-                canSlap = true;
+                canSlap = true;                
             }
         }
         else {
