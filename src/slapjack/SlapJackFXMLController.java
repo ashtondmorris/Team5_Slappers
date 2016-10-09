@@ -59,6 +59,7 @@ public class SlapJackFXMLController implements Initializable {
         player2CardImages = new ArrayList<>();
         playerCardImages = new ArrayList<>();
         playerHands = new ArrayList<>();
+        masterPileCardImages = new ArrayList<>();
         playerCardImages.add(player1CardImages);
         playerCardImages.add(player2CardImages);
         playerHands.add(player1Hand);
@@ -174,23 +175,23 @@ public class SlapJackFXMLController implements Initializable {
                 
                 System.out.print("Player "+ i +"'s card: " + players.get(i).getHand().get(j).toString());
         
-                playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j));
+                playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j)); 
                 
-                yLocation = playerCardImages.get(i).get(j).getTranslateX();
+                yLocation = playerCardImages.get(i).get(j).getTranslateY();
                 xLocation = playerCardImages.get(i).get(j).getTranslateX();
                         
                 TranslateTransition translate = new TranslateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
-                translate.setFromX(Math.pow(-1,i)*130);
-                translate.setFromY(-170);
-                translate.setToX(xLocation);
-                translate.setToY(yLocation);
-                translate.setCycleCount(1);
-                translate.setAutoReverse(false);
+                    translate.setFromX(Math.pow(-1,i)*130);
+                    translate.setFromY(-170);
+                    translate.setToX(xLocation);
+                    translate.setToY(yLocation);
+                    translate.setCycleCount(1);
+                    translate.setAutoReverse(false);
 
                 RotateTransition rotate = new RotateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
-                rotate.setByAngle((Math.random() * 2) * Math.pow(-1, i));
-                rotate.setCycleCount(1);
-                rotate.setAutoReverse(false);
+                    rotate.setByAngle((Math.random() * 2) * Math.pow(-1, i));
+                    rotate.setCycleCount(1);
+                    rotate.setAutoReverse(false);
                 
                 
                 ParallelTransition parallelTranny = new ParallelTransition();
@@ -206,31 +207,56 @@ public class SlapJackFXMLController implements Initializable {
     
     // takes in the giver and receiver of the giveCard method.
     // animates the process of one player giving the other player their card
-    public void animateGiveCard(Player giver, Player receiver){
+    public void animateGiveCard(int giver, int receiver){
         
     }
     
     // takes in the players hand and animates them shuffling their deck some how
-    public void animateShuffleHand(Player player){
+    public void animateShuffleHand(int player){
         
     }
     
     //
     public void animateAddCardToPile(int player){
         
+        //playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j));
+        
         //SequentialTransition sequence = new SequentialTransition();
+//        double yLocation;
+//        double xLocation;
+//        
+//        yLocation = playerCardImages.get(player).get(0).getTranslateY();
+//        xLocation = playerCardImages.get(player).get(0).getTranslateX();
+//        
+//        masterPileCardImages.add(playerCardImages.get(player).remove(0)); // adding an imageView (card) from the players 
+//        masterPile.getChildren().addAll(masterPileCardImages); // not sure about addAll
+//        playerHands.get(player).getChildren().remove(playerHands.get(player).getChildren().size() - 1); // not sure if the particular child node will still be in the stackpane. I think this step is necessary though.
+//        
+//        TranslateTransition translate = new TranslateTransition(Duration.millis(1000), masterPileCardImages.get(0));
+//            translate.setFromX(xLocation);
+//            translate.setFromY(yLocation);
+//            translate.setToX(masterPileCardImages.get(0).getX());
+//            translate.setToY(masterPileCardImages.get(0).getY());
+//            translate.setCycleCount(1);
+//            translate.setAutoReverse(false);
+//        
+//        RotateTransition rotate = new RotateTransition(Duration.millis(1000), masterPileCardImages.get(0));
+//            rotate.setByAngle((Math.random() * 100) * Math.pow(-1, Math.random() * 10));
+//            rotate.setCycleCount(1);
+//            rotate.setAutoReverse(false);
+//        
+//        ParallelTransition parallel = new ParallelTransition();
+//        
+//        parallel.getChildren().addAll(translate, rotate);
         
-        
-        ParallelTransition parallel = new ParallelTransition();
-        parallel.getChildren().addAll();
-        
+        //parallel.play();
     } 
     
-    public void animateShowCurrentPlayer(int currentPlayer){
+    public void animateShowCurrentPlayer(int player){
         
     }
     
-    public void animateDeclarationOfWinner(Player player){
+    public void animateDeclarationOfWinner(int player){
         
     }
     
@@ -245,5 +271,24 @@ public class SlapJackFXMLController implements Initializable {
         
         
     }
+    
+    // sets up all sequential animations.
+    // fromX -> x-coordinate the node is coming from
+    // toX -> x-coordinate the node is going to
+    // fromY -> y-coordinate the node is coming from
+    // toY -> y-coordinate the node is going to
+    // playerIndex -> index where the node is that is being moved
+    // fromPlayer -> true indicates it is coming from the player, false indicates it is coming from elsewhere (the masterPile or the other player)
+    private void prepareSequenceAnimation(double fromX, double toX, double fromY, double toY, int playerIndex, boolean fromPlayer){
+        
+        //not sure if this will work.
+        
+    }
+    
+    // same as prepareSequenceAnimation except that it is only a parallel transition animation
+    private void prepareParallelAnimation(double From, double To, int playerIndex, boolean fromPlayer){
+    
+    }
+    
     
 }

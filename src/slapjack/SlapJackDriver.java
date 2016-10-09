@@ -85,8 +85,7 @@ public class SlapJackDriver {
                 players.get(j).setCardInHand(masterDeck.remove(0));
             }
         }
-        
-        
+ 
         System.out.println(players.get(0).getHand().size());
         System.out.println(players.get(1).getHand().size());
         controller.animateDealCards(players); // we have to pass in the correct instance of players that we want to use, otherwise if we call players.get(0) from the controller it will be null for some reason :( But this works.
@@ -116,7 +115,7 @@ public class SlapJackDriver {
             } 
                
             players.get(player).shuffleHand();
-            controller.animateShuffleHand(players.get(player));
+            controller.animateShuffleHand(player);
             
             //check if the other player had no cards
             if (players.get(otherPlayer).getCardCount() == 0) {
@@ -183,7 +182,7 @@ public class SlapJackDriver {
         endRound();
         // need to make it so that the game is over and we show which player won
         // the players should no longer be able to turn or slap cards.
-        controller.animateDeclarationOfWinner(players.get(player)); //calling an animation
+        controller.animateDeclarationOfWinner(player); //calling an animation
     }
     
     // sets the static isPlaying boolean to false, so that the players cannot slap or turn card anymore after someone has won
@@ -193,8 +192,7 @@ public class SlapJackDriver {
     }
     
     // when a player turns a card and adds that card to the masterDeck pile
-    public void addToDeck(int player)
-    {        
+    public void addToDeck(int player) {        
         System.out.println(players.get(player).getHand().get(0).toString());
         masterDeck.add(players.get(player).getCardFromHand());
         controller.animateAddCardToPile(player); // calling an animation
