@@ -95,8 +95,22 @@ public class SlapJackFXMLController implements Initializable {
     
     // calls the particular player's turn method
     public void turn(String letter){
+        
+        boolean playerCanTurn = true;
+        
+        if (slapJackDriver.masterDeck.size() > 0) 
+        {
+            if (slapJackDriver.masterDeck.get(slapJackDriver.masterDeck.size() -1).face() == Card.Face.JACK) 
+            {
+                playerCanTurn = false;
+            }
+        }
+        
+        if (slapJackDriver.getIsWinner())
+            playerCanTurn = false;
+        
         switch(letter){
-            case "A":   if(slapJackDriver.player1.isPlayersTurn && !slapJackDriver.getIsWinner()){
+            case "A":   if(slapJackDriver.player1.isPlayersTurn && playerCanTurn){
                             slapJackDriver.player1.turnCard();
                             slapJackDriver.addToDeck(0);
                             // change whose turn it is
@@ -109,7 +123,7 @@ public class SlapJackFXMLController implements Initializable {
 //                            System.out.println(slapJackDriver.player1.isPlayersTurn);
                               System.out.println("You cannot turn a card at this time");
                         }break;
-            case "K":   if(slapJackDriver.player2.isPlayersTurn && !slapJackDriver.getIsWinner()){
+            case "K":   if(slapJackDriver.player2.isPlayersTurn && playerCanTurn){
                             slapJackDriver.player2.turnCard();
                             slapJackDriver.addToDeck(1);
                             // change whose turn it is
