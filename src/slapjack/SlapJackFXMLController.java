@@ -221,35 +221,35 @@ public class SlapJackFXMLController implements Initializable {
         
         //playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j));
         
-        //SequentialTransition sequence = new SequentialTransition();
-//        double yLocation;
-//        double xLocation;
-//        
-//        yLocation = playerCardImages.get(player).get(0).getTranslateY();
-//        xLocation = playerCardImages.get(player).get(0).getTranslateX();
-//        
-//        masterPileCardImages.add(playerCardImages.get(player).remove(0)); // adding an imageView (card) from the players 
-//        masterPile.getChildren().addAll(masterPileCardImages); // not sure about addAll
-//        playerHands.get(player).getChildren().remove(playerHands.get(player).getChildren().size() - 1); // not sure if the particular child node will still be in the stackpane. I think this step is necessary though.
-//        
-//        TranslateTransition translate = new TranslateTransition(Duration.millis(1000), masterPileCardImages.get(0));
-//            translate.setFromX(xLocation);
-//            translate.setFromY(yLocation);
-//            translate.setToX(masterPileCardImages.get(0).getX());
-//            translate.setToY(masterPileCardImages.get(0).getY());
-//            translate.setCycleCount(1);
-//            translate.setAutoReverse(false);
-//        
-//        RotateTransition rotate = new RotateTransition(Duration.millis(1000), masterPileCardImages.get(0));
-//            rotate.setByAngle((Math.random() * 100) * Math.pow(-1, Math.random() * 10));
-//            rotate.setCycleCount(1);
-//            rotate.setAutoReverse(false);
-//        
-//        ParallelTransition parallel = new ParallelTransition();
-//        
-//        parallel.getChildren().addAll(translate, rotate);
+        SequentialTransition sequence = new SequentialTransition();
+        double yLocation;
+        double xLocation;
         
-        //parallel.play();
+        yLocation = playerHands.get(player).getChildren().get(0).getTranslateY();
+        xLocation = playerHands.get(player).getChildren().get(0).getTranslateX();
+        
+        masterPileCardImages.add(playerCardImages.get(player).remove(0)); // adding an imageView (card) from the players 
+        masterPile.getChildren().add(masterPileCardImages.get(masterPileCardImages.size() - 1)); // not sure about addAll
+        //playerHands.get(player).getChildren().remove(playerHands.get(player).getChildren().size() - 1); // not sure if the particular child node will still be in the stackpane. I think this step is necessary though.
+        
+        TranslateTransition translate = new TranslateTransition(Duration.millis(1000), masterPileCardImages.get(masterPileCardImages.size() - 1));
+            translate.setFromX(xLocation);
+            translate.setFromY(yLocation);
+            translate.setToX(masterPileCardImages.get(0).getX());
+            translate.setToY(masterPileCardImages.get(0).getY());
+            translate.setCycleCount(1);
+            translate.setAutoReverse(false);
+        
+        RotateTransition rotate = new RotateTransition(Duration.millis(1000), masterPileCardImages.get(masterPileCardImages.size() - 1));
+            rotate.setByAngle((Math.random() * 100) * Math.pow(-1, Math.random() * 10));
+            rotate.setCycleCount(1);
+            rotate.setAutoReverse(false);
+        
+        ParallelTransition parallel = new ParallelTransition();
+        
+        parallel.getChildren().addAll(translate, rotate);
+        
+        parallel.play();
     } 
     
     public void animateShowCurrentPlayer(int player){
