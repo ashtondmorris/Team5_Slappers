@@ -94,7 +94,7 @@ public class SlapJackFXMLController implements Initializable {
     // calls the particular player's turn method
     public void turn(String letter){
         switch(letter){
-            case "A":   if(slapJackDriver.player1.isPlayersTurn){
+            case "A":   if(slapJackDriver.player1.isPlayersTurn && !slapJackDriver.getIsWinner()){
                             slapJackDriver.player1.turnCard();
                             slapJackDriver.addToDeck(0);
                             // change whose turn it is
@@ -104,9 +104,10 @@ public class SlapJackFXMLController implements Initializable {
                                 slapJackDriver.changeTurn(1);
                             }
                         } else {
-                            System.out.println(slapJackDriver.player1.isPlayersTurn);
+//                            System.out.println(slapJackDriver.player1.isPlayersTurn);
+                              System.out.println("You cannot turn a card at this time");
                         }break;
-            case "K":   if(slapJackDriver.player2.isPlayersTurn){
+            case "K":   if(slapJackDriver.player2.isPlayersTurn && !slapJackDriver.getIsWinner()){
                             slapJackDriver.player2.turnCard();
                             slapJackDriver.addToDeck(1);
                             // change whose turn it is
@@ -116,7 +117,8 @@ public class SlapJackFXMLController implements Initializable {
                                 slapJackDriver.changeTurn(0);
                             }
                         } else {
-                            System.out.println(slapJackDriver.player2.isPlayersTurn);
+//                            System.out.println(slapJackDriver.player2.isPlayersTurn);
+                            System.out.println("You cannot turn a card at this time");
                         } break;
         }
     }

@@ -189,6 +189,7 @@ public class SlapJackDriver {
     // sets the static isPlaying boolean to false, so that the players cannot slap or turn card anymore after someone has won
     public void endRound(){
         Player.isPlaying = false;
+        isWinner = true;
     }
     
     // when a player turns a card and adds that card to the masterDeck pile
@@ -200,4 +201,7 @@ public class SlapJackDriver {
         System.out.println("Player " + player + " has " + players.get(player).getCardCount() + " cards in their hand.");
     }
     
+    public boolean getIsWinner() {
+        return isWinner;
+    }
 }
