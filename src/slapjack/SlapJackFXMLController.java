@@ -3,6 +3,7 @@ package slapjack;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
@@ -152,18 +153,15 @@ public class SlapJackFXMLController implements Initializable {
 
             for(int i = 0; i < 2; i++){
                 for(int j = 0; j < players.get(i).getHand().size(); j++){
-                    players.get(i).getHand().get(j).flipToBack();  
+                    players.get(i).getHand().get(j).flipToFace();  
                     iView = new ImageView();
                     iView.setImage(players.get(i).getHand().get(j).getImage());                   
                     iView.setFitWidth(80);
                     iView.setPreserveRatio(true);
                     iView.setSmooth(true);
-                    //iView.setTranslateY();
+                    iView.setOpacity(0);
+                    
                     playerCardImages.get(i).add(iView);
-//                    switch(i){
-//                        case 0: player1CardImages.add(iView); break;
-//                        case 1: player2CardImages.add(iView); break;
-//                    }
                 }
             }
     } // end updateCardImages()
@@ -181,21 +179,22 @@ public class SlapJackFXMLController implements Initializable {
         
         System.out.println("Dealing cards animation...");
         
-        System.out.print("Player 1's top card: " + players.get(0).getHand().get(0).toString());
-        System.out.print("Player 2's top card: " + players.get(1).getHand().get(0).toString());
+        System.out.print("Player 1's top card: " + players.get(0).getHand().get(players.get(0).getHand().size() - 1).toString());
+        System.out.print("Player 2's top card: " + players.get(1).getHand().get(players.get(1).getHand().size() - 1).toString());
                
         for(int j = 0; j < playerCardImages.get(0).size(); j++){ // each card
             for(int i = 0; i < playerCardImages.size(); i++){ // each player
                 
                 System.out.print("Player "+ i +"'s card: " + players.get(i).getHand().get(j).toString());
         
+                
                 playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j)); 
                 
                 yLocation = playerCardImages.get(i).get(j).getTranslateY();
                 xLocation = playerCardImages.get(i).get(j).getTranslateX();
                         
                 TranslateTransition translate = new TranslateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
-                    translate.setFromX(Math.pow(-1,i)*130);
+                    translate.setFromX(Math.pow(-1, i) * 130);
                     translate.setFromY(-170);
                     translate.setToX(xLocation);
                     translate.setToY(yLocation);
@@ -206,11 +205,16 @@ public class SlapJackFXMLController implements Initializable {
                     rotate.setByAngle((Math.random() * 2) * Math.pow(-1, i));
                     rotate.setCycleCount(1);
                     rotate.setAutoReverse(false);
+                    
+                FadeTransition fade = new FadeTransition(Duration.millis(100), playerCardImages.get(i).get(j));
+                    fade.setToValue(1);
+                    fade.setCycleCount(1);
+                    fade.setAutoReverse(false);
                 
                 
                 ParallelTransition parallelTranny = new ParallelTransition();
 
-                parallelTranny.getChildren().addAll(translate, rotate);
+                parallelTranny.getChildren().addAll(translate, rotate, fade);
                 sequence.getChildren().add(parallelTranny);
             }
             
@@ -227,11 +231,11 @@ public class SlapJackFXMLController implements Initializable {
     
     // takes in the players hand and animates them shuffling their deck some how
     public void animateShuffleHand(int player){
-        
+        // ehhhhh
     }
     
     //
-    public void animateAddCardToPile(int player){
+    public void animateAddCardToPile(int player, ArrayList<Card> master){
         
         //playerHands.get(i).getChildren().add(playerCardImages.get(i).get(j));
         
@@ -239,23 +243,46 @@ public class SlapJackFXMLController implements Initializable {
         double yLocation;
         double xLocation;
         
+        // getting the face image into the master pile stackpane
+        master.get(master.size() - 1).flipToFace();
+        
+        ImageView iView = new ImageView();
+            iView.setFitWidth(80);
+            iView.setPreserveRatio(true);
+            iView.setSmooth(true);
+            iView.setImage(master.get(master.size() - 1).getImage());
+            
+        masterPileCardImages.add(iView);
+        masterPile.getChildren().add(masterPileCardImages.get(masterPileCardImages.size() - 1));
+        
+        
         yLocation = playerHands.get(player).getChildren().get(0).getTranslateY();
         xLocation = playerHands.get(player).getChildren().get(0).getTranslateX();
         
-        masterPileCardImages.add(playerCardImages.get(player).remove(0)); // adding an imageView (card) from the players 
-        masterPile.getChildren().add(masterPileCardImages.get(masterPileCardImages.size() - 1)); // not sure about addAll
+        // might be removing the wrong end of these 2 things
+        playerCardImages.get(player).remove(playerCardImages.get(player).size() - 1); // removing the card from the player's image arraylist
+        playerHands.get(player).getChildren().remove(playerHands.get(player).getChildren().size() - 1); // removing the image child from the stackpane
+        
+        
+        //masterPileCardImages.add(playerCardImages.get(player).remove(0)); // adding an imageView (card) from the players 
+        //masterPile.getChildren().add(masterPileCardImages.get(masterPileCardImages.size() - 1)); // not sure about addAll
         //playerHands.get(player).getChildren().remove(playerHands.get(player).getChildren().size() - 1); // not sure if the particular child node will still be in the stackpane. I think this step is necessary though.
         
-        TranslateTransition translate = new TranslateTransition(Duration.millis(1000), masterPileCardImages.get(masterPileCardImages.size() - 1));
-            translate.setFromX(xLocation);
+        TranslateTransition translate = new TranslateTransition(Duration.millis(200), masterPileCardImages.get(masterPileCardImages.size() - 1));
+            if(player == 0){
+                translate.setFromX(masterPileCardImages.get(0).getX() - 60);
+            }
+            else {
+                translate.setFromX(masterPileCardImages.get(0).getX() + 60);
+            }
             translate.setFromY(yLocation);
-            translate.setToX(masterPileCardImages.get(0).getX());
-            translate.setToY(masterPileCardImages.get(0).getY());
+            translate.setToX(masterPileCardImages.get(0).getX() + (Math.random()*24 * Math.pow(-1, (player + 1))));
+            translate.setToY(masterPileCardImages.get(0).getY() + (Math.random()*4 * Math.pow(-1, (player + 1))));
             translate.setCycleCount(1);
             translate.setAutoReverse(false);
         
-        RotateTransition rotate = new RotateTransition(Duration.millis(1000), masterPileCardImages.get(masterPileCardImages.size() - 1));
-            rotate.setByAngle((Math.random() * 100) * Math.pow(-1, Math.random() * 10));
+        RotateTransition rotate = new RotateTransition(Duration.millis(200), masterPileCardImages.get(masterPileCardImages.size() - 1));
+            rotate.setByAngle((Math.random() * 50) * Math.pow(-1, (player + 1) * 3));
             rotate.setCycleCount(1);
             rotate.setAutoReverse(false);
         

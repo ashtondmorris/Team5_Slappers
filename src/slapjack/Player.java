@@ -43,7 +43,7 @@ public class Player {
     
     public Card getCardFromHand(){
         if(!this.hand.isEmpty()){ // if this players hand is not empty
-            return this.hand.remove(0);
+            return this.hand.remove(this.hand.size() - 1);
         }
         else{
             return null; // here we need to do something for when a player has no more cards
