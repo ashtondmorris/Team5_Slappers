@@ -196,7 +196,7 @@ public class SlapJackDriver {
     {        
         System.out.println(players.get(player).getHand().get(0).toString());
         masterDeck.add(players.get(player).getCardFromHand());
-        controller.animateAddCardToPile(players.get(player)); // calling an animation
+        controller.animateAddCardToPile(player); // calling an animation
         System.out.println("Player " + player + " has " + players.get(player).getCardCount() + " cards in their hand.");
     }
     

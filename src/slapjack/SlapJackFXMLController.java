@@ -44,6 +44,7 @@ public class SlapJackFXMLController implements Initializable {
     private Scene scene;
     public ArrayList<ImageView> player1CardImages;
     public ArrayList<ImageView> player2CardImages;
+    public ArrayList<ImageView> masterPileCardImages;
     public ArrayList<ArrayList<ImageView>> playerCardImages;
     public ArrayList<StackPane> playerHands;
     
@@ -150,11 +151,7 @@ public class SlapJackFXMLController implements Initializable {
             }
     } // end updateCardImages()
     
-    // takes in the giver and receiver of the giveCard method.
-    // animates the process of one player giving the other player their card
-    public void animateGiveCard(Player giver, Player receiver){
-        
-    }
+
     
     // takes in the players and animates the process of dealing out the cards
     public void animateDealCards(ArrayList<Player> players){
@@ -205,13 +202,25 @@ public class SlapJackFXMLController implements Initializable {
         // do animation
     }
     
+    // takes in the giver and receiver of the giveCard method.
+    // animates the process of one player giving the other player their card
+    public void animateGiveCard(Player giver, Player receiver){
+        
+    }
+    
     // takes in the players hand and animates them shuffling their deck some how
     public void animateShuffleHand(Player player){
         
     }
     
     //
-    public void animateAddCardToPile(Player player){
+    public void animateAddCardToPile(int player){
+        
+        //SequentialTransition sequence = new SequentialTransition();
+        
+        
+        ParallelTransition parallel = new ParallelTransition();
+        parallel.getChildren().addAll();
         
     } 
     
@@ -220,6 +229,18 @@ public class SlapJackFXMLController implements Initializable {
     }
     
     public void animateDeclarationOfWinner(Player player){
+        
+    }
+    
+    // animate the slapping
+    // probably just fade in a slap image over the masterPile
+    public void animateSlap(){
+        
+    }
+    
+    //animate giving the pile to who ever won that turn
+    public void animateGivePileToPlayer(){
+        
         
     }
     
