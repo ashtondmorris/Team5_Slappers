@@ -97,20 +97,23 @@ public class SlapJackDriver {
     //whose card they slapped.
     public void checkPile(int player){
         Player.canSlap = false;
+        controller.animateSlap(player);
         int size = masterDeck.size();
     
         if(masterDeck.get(masterDeck.size() -1).face() == Card.Face.JACK)
         {            
             int otherPlayer = -1;
-            if (player == 0)
+            if (player == 0) {
                 otherPlayer = 1;
-            else 
+            }
+            else { 
                 otherPlayer = 0;
-            
+            }
             System.out.println(player + " slapped a jack");
             for (int i = 0; i < size; i++)
             {
-               players.get(player).setCardInHand(masterDeck.remove(0));
+               players.get(player).setCardInHand(masterDeck.remove(masterDeck.size() - 1));
+               controller.animateGivePileToPlayer(player, players.get(player)); // calling animation
                System.out.print(players.get(player).getHand().get(players.get(player).getHand().size()-1).toString()); // this command is huge. we're very proud of it. it's a beautiful thing.
             } 
                
@@ -120,29 +123,43 @@ public class SlapJackDriver {
             //check if the other player had no cards
             if (players.get(otherPlayer).getCardCount() == 0) {
                 players.get(player).isWinner = true;
+//                for(int i = 0; i < size; i++){
+//                    players.get(player).setCardInHand(masterDeck.remove(masterDeck.size() - 1));
+//                    controller.animateGivePileToPlayer(player, players.get(player));
+//                }
                 isWinner();
             }
         }
         
-        else
+        else // if the player slaps a non-jack
         {
             switch (player)
             {
                 case 0:
                     if(player1.giveCard(player2)){
+                        controller.animateGiveCard(0, 1);
                         System.out.println(player + " give card");
                     }
                     else{
                         player2.isWinner = true;
+                        for(int i = 0; i < size; i++){
+                            players.get(1).setCardInHand(masterDeck.remove(masterDeck.size() - 1));
+                            controller.animateGivePileToPlayer(1, players.get(1));
+                        }
                         isWinner();
                     }
                     break;
                 case 1:
                     if(player2.giveCard(player1)){
+                        controller.animateGiveCard(1, 0);
                         System.out.println(player + " give card");
                     }
                     else {
                         player1.isWinner = true;
+                        for(int i = 0; i < size; i++){
+                            players.get(0).setCardInHand(masterDeck.remove(masterDeck.size() - 1));
+                            controller.animateGivePileToPlayer(0, players.get(0));
+                        }
                         isWinner();
                     }
                     break;

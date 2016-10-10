@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -27,19 +30,59 @@
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin></StackPane>
+      <StackPane fx:id="player3Hand" prefHeight="150.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
+         <GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin>
+         <children>
+            <ImageView fitHeight="85.0" fitWidth="436.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+               <image>
+                  <Image url="@images/slapJackTitle.png" />
+               </image>
+               <effect>
+                  <DropShadow color="WHITE" height="6.0" radius="3.25" spread="1.0" width="9.0" />
+               </effect>
+            </ImageView>
+         </children>
+      </StackPane>
       <StackPane fx:id="player2Hand" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin></StackPane>
-      <StackPane fx:id="player3Hand" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2">
-         <GridPane.margin>
-            <Insets top="20.0" />
-         </GridPane.margin>
-      </StackPane>
       <StackPane fx:id="player4Hand" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="20.0" />
          </GridPane.margin>
+      </StackPane>
+      <StackPane alignment="TOP_CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <children>
+            <ImageView fx:id="diamondTurn1" fitHeight="42.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/diamondTurn.png" />
+               </image>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="WHITE" height="25.0" radius="12.0" spread="0.2" width="25.0" />
+               </effect>
+               <StackPane.margin>
+                  <Insets left="20.0" />
+               </StackPane.margin>
+            </ImageView>
+         </children>
+      </StackPane>
+      <StackPane alignment="TOP_CENTER" GridPane.columnIndex="4" GridPane.rowIndex="4">
+         <children>
+            <ImageView fx:id="diamondTurn2" fitHeight="42.0" fitWidth="27.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/diamondTurn.png" />
+               </image>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="WHITE" height="25.0" radius="12.0" spread="0.2" width="25.0" />
+               </effect>
+               <StackPane.margin>
+                  <Insets right="20.0" />
+               </StackPane.margin>
+            </ImageView>
+         </children>
       </StackPane>
    </children>
 </GridPane>
