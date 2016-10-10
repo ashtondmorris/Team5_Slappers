@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -45,6 +46,12 @@ public class SlapJackFXMLController implements Initializable {
         ImageView diamondTurn1;
     @FXML
         ImageView diamondTurn2;
+    @FXML
+        ImageView keys1;
+    @FXML
+        ImageView keys2;
+    @FXML
+        Button playAgainButton;
     
     private SlapJackDriver slapJackDriver;
     private Stage stage;
@@ -233,7 +240,6 @@ public class SlapJackFXMLController implements Initializable {
                 parallelTranny.getChildren().addAll(translate, rotate, fade);
                 sequence.getChildren().add(parallelTranny);
             }
-            
         }
         cardShuffle.setCycleCount(4);
         cardShuffle.setRate(2);
@@ -405,8 +411,26 @@ public class SlapJackFXMLController implements Initializable {
                 parallel.getChildren().addAll(translate, fade, rotate);
                 parallel.setDelay(Duration.millis(1000));
                 parallel.play();
-                //parallel.setOnFinished(e -> );
+                parallel.setOnFinished(e -> reset());
         }
+    }
+    
+    private void reset(){
+        FadeTransition fade = new FadeTransition(Duration.millis(300), playAgainButton);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+        
+        playAgainButton.setOnAction(e -> buttonAction());
+        
+    }
+    
+    private void buttonAction(){
+        slapJackDriver = new SlapJackDriver(this); 
+        FadeTransition fade = new FadeTransition(Duration.millis(300), playAgainButton);
+        fade.setFromValue(1);
+        fade.setToValue(0);
+        fade.play();
     }
     
     // animate the slapping

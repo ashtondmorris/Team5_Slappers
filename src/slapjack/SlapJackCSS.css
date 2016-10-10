@@ -8,3 +8,7 @@
     -fx-border-image-width: 20;
     -fx-border-image-slice: 20;
 }
+
+.playAgainButton {
+    -fx-background-color: red;
+}

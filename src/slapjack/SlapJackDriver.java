@@ -33,11 +33,12 @@ public class SlapJackDriver {
     
     public SlapJackDriver(SlapJackFXMLController controller){
         this.controller = controller;
+        Player.isPlaying = true;
         playGame();
     }
     
     // starts a new game of SlapJack and deals with the gameplay
-    private void playGame(){
+    public void playGame(){
         PlayingCards p = new PlayingCards();
         masterDeck = new ArrayList<>();
         makeDecks(); 
