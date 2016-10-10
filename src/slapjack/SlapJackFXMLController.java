@@ -20,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -54,11 +55,13 @@ public class SlapJackFXMLController implements Initializable {
     public ArrayList<ArrayList<ImageView>> playerCardImages;
     public ArrayList<StackPane> playerHands;
     
-    // add sound
+    AudioClip cardPlace1;
+    AudioClip cardSlide1;
+    AudioClip cardShuffle;
+    AudioClip FireImpact;
     
     // add reset
     // add controls/rules
-    // add winning animation
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -75,8 +78,11 @@ public class SlapJackFXMLController implements Initializable {
         playerCardImages.add(player2CardImages);
         playerHands.add(player1Hand);
         playerHands.add(player2Hand);
+        cardShuffle = new AudioClip(getClass().getResource("sounds/cardShuffle.wav").toExternalForm());
+        cardPlace1 = new AudioClip(getClass().getResource("sounds/cardPlace1.wav").toExternalForm());
+        cardSlide1 = new AudioClip(getClass().getResource("sounds/cardSlide1.wav").toExternalForm());
+        FireImpact = new AudioClip(getClass().getResource("sounds/Fire_Impact1.wav").toExternalForm());
         slapJackDriver = new SlapJackDriver(this); 
-        //player1Hand.setOnMouseClicked(e -> slap()); // just testing lambda expression and seeing if i have access to the correct instance of the fxml objects
     }
     
     public void setStage(Stage stage){
@@ -229,7 +235,12 @@ public class SlapJackFXMLController implements Initializable {
             }
             
         }
+        cardShuffle.setCycleCount(4);
+        cardShuffle.setRate(2);
+        cardShuffle.play();
+                
         sequence.play();
+        sequence.setOnFinished(e -> cardShuffle.stop());
         // do animation
     }
     
@@ -315,12 +326,13 @@ public class SlapJackFXMLController implements Initializable {
         
         parallel.getChildren().addAll(translate, rotate);
         
+        cardPlace1.play();
         parallel.play();
     } 
     
     public void animateShowCurrentPlayer(int player){
         
-        ImageView diamondTurn;// = new ImageView();
+        ImageView diamondTurn; // = new ImageView();
         double fromAngle;
         double toAngle;
         
@@ -357,6 +369,44 @@ public class SlapJackFXMLController implements Initializable {
     
     public void animateDeclarationOfWinner(int player){
         
+        ArrayList<ImageView> winner;
+        StackPane winnerStackPane;
+        ParallelTransition parallel;
+        
+        if(!player1CardImages.isEmpty()){
+            winner = player1CardImages;
+            winnerStackPane = playerHands.get(0);
+        } else {
+            winner = player2CardImages;
+            winnerStackPane = playerHands.get(1);
+        }
+        
+        //Math.pow(-1, (i + Math.random() * 10)) * Math.random() * 400
+        for(int i = 0; i < winner.size(); i++){
+            TranslateTransition translate = new TranslateTransition(Duration.millis(500), winnerStackPane.getChildren().get(winnerStackPane.getChildren().size() - (i + 1)));
+                translate.setFromX(0);
+                translate.setFromY(0);
+                translate.setToX(Math.pow(-1, i) * Math.random()*350);
+                translate.setToY(Math.pow(-1, i) * Math.random()*350);
+                translate.setAutoReverse(false);
+                translate.setCycleCount(1);
+            
+            FadeTransition fade = new FadeTransition(Duration.millis(500), winnerStackPane.getChildren().get(winnerStackPane.getChildren().size() - (i + 1)));
+                fade.setFromValue(1);
+                fade.setToValue(0);
+                fade.setAutoReverse(false);
+                fade.setCycleCount(1);
+            
+            RotateTransition rotate = new RotateTransition(Duration.millis(500), winnerStackPane.getChildren().get(winnerStackPane.getChildren().size() - (i + 1)));
+                rotate.setToAngle(Math.random() * 360);
+                
+            //winnerStackPane.getChildren().remove(winnerStackPane.getChildren().size() - 1);
+                parallel = new ParallelTransition();
+                parallel.getChildren().addAll(translate, fade, rotate);
+                parallel.setDelay(Duration.millis(1000));
+                parallel.play();
+                //parallel.setOnFinished(e -> );
+        }
     }
     
     // animate the slapping
@@ -376,7 +426,8 @@ public class SlapJackFXMLController implements Initializable {
         FadeTransition fade = new FadeTransition(Duration.millis(1000), iView);
             fade.setToValue(0);
             fade.setAutoReverse(false);
-            
+        
+        FireImpact.play();    
         fade.play();
         fade.setOnFinished(e -> player4Hand.getChildren().remove(iView));
     }
@@ -425,8 +476,7 @@ public class SlapJackFXMLController implements Initializable {
         parallel.getChildren().addAll(translate, rotate);
         
         parallel.play();
-        
-        
+        cardSlide1.play();
     }
     
     // sets up all sequential animations.
@@ -449,3 +499,10 @@ public class SlapJackFXMLController implements Initializable {
     
     
 }
+
+
+
+
+/* CREDITS
+Some of the sounds in this project were created by ViRiX Dreamcore (David McKee) soundcloud.com/virix
+*/
