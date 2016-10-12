@@ -86,6 +86,7 @@ public class SlapJackFXMLController implements Initializable {
     AudioClip cardSlide1;
     AudioClip cardShuffle;
     AudioClip FireImpact;
+    AudioClip cryingJack;
     
     // add reset
     // add controls/rules
@@ -109,6 +110,9 @@ public class SlapJackFXMLController implements Initializable {
         cardPlace1 = new AudioClip(getClass().getResource("sounds/cardPlace1.wav").toExternalForm());
         cardSlide1 = new AudioClip(getClass().getResource("sounds/cardSlide1.wav").toExternalForm());
         FireImpact = new AudioClip(getClass().getResource("sounds/Fire_Impact1.wav").toExternalForm());
+        cryingJack = new AudioClip(getClass().getResource("sounds/poorjack.wav").toExternalForm());
+        cryingJack.setRate(1.0);
+        
         animatePoorJack();
         playButton.setOnAction(e -> playButtonAction());
     }
@@ -140,6 +144,7 @@ public class SlapJackFXMLController implements Initializable {
         scaredyJack.setAutoReverse(true);
         scaredyJack.setCycleCount(2000);
 
+        cryingJack.play();
         sequence.play();
         scaredyJack.play();
     }
@@ -168,6 +173,7 @@ public class SlapJackFXMLController implements Initializable {
         fade.play();
         FireImpact.play();
         
+        cryingJack.stop();
         scaredyJack.stop();
         sequence.stop();
         deadJackEyes.setOpacity(1);
@@ -340,7 +346,7 @@ public class SlapJackFXMLController implements Initializable {
                 yLocation = playerCardImages.get(i).get(j).getTranslateY();
                 xLocation = playerCardImages.get(i).get(j).getTranslateX();
                         
-                TranslateTransition translate = new TranslateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
+                TranslateTransition translate = new TranslateTransition(Duration.millis(50), playerCardImages.get(i).get(j));
                     translate.setFromX(Math.pow(-1, i) * 130);
                     translate.setFromY(-170);
                     translate.setToX(xLocation);
@@ -348,12 +354,12 @@ public class SlapJackFXMLController implements Initializable {
                     translate.setCycleCount(1);
                     translate.setAutoReverse(false);
 
-                RotateTransition rotate = new RotateTransition(Duration.millis(100), playerCardImages.get(i).get(j));
+                RotateTransition rotate = new RotateTransition(Duration.millis(50), playerCardImages.get(i).get(j));
                     rotate.setByAngle((Math.random() * 2) * Math.pow(-1, i));
                     rotate.setCycleCount(1);
                     rotate.setAutoReverse(false);
                     
-                FadeTransition fade = new FadeTransition(Duration.millis(100), playerCardImages.get(i).get(j));
+                FadeTransition fade = new FadeTransition(Duration.millis(50), playerCardImages.get(i).get(j));
                     fade.setToValue(1);
                     fade.setCycleCount(1);
                     fade.setAutoReverse(false);
