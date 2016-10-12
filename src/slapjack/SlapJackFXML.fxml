@@ -56,14 +56,9 @@
          <GridPane.margin>
             <Insets right="20.0" />
          </GridPane.margin></StackPane>
-      <StackPane fx:id="player4Hand" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-         <GridPane.margin>
-            <Insets bottom="20.0" />
-         </GridPane.margin>
-      </StackPane>
       <StackPane alignment="TOP_CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <children>
-            <ImageView fx:id="diamondTurn1" fitHeight="42.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="diamondTurn1" fitHeight="42.0" fitWidth="27.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/diamondTurn.png" />
                </image>
@@ -98,12 +93,12 @@
                   <Insets bottom="15.0" left="20.0" />
                </StackPane.margin>
                <children>
-                  <Label text="Turn     Slap" textFill="WHITE">
+                  <Label fx:id="p1Controls" opacity="0.0" text="Turn     Slap" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="keys1" fitHeight="53.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="keys1" fitHeight="53.0" fitWidth="140.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/keys1.png" />
                      </image>
@@ -119,12 +114,12 @@
                   <Insets bottom="15.0" right="20.0" />
                </StackPane.margin>
                <children>
-                  <Label text="Turn     Slap" textFill="WHITE">
+                  <Label fx:id="p2Controls" opacity="0.0" text="Turn     Slap" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <ImageView fx:id="keys2" fitHeight="53.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="keys2" fitHeight="53.0" fitWidth="140.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/keys2.png" />
                      </image>
@@ -143,7 +138,60 @@
                   <DropShadow blurType="GAUSSIAN" color="WHITE" height="3.21" radius="1.105" spread="1.0" width="3.21" />
                </effect>
             </Button>
+            <Button fx:id="playButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" styleClass="playAgainButton" stylesheets="@SlapJackCSS.css" text="Play" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="WHITE" height="3.21" radius="1.105" spread="1.0" width="3.21" />
+               </effect>
+               <StackPane.margin>
+                  <Insets top="15.0" />
+               </StackPane.margin>
+            </Button>
          </children>
+      </StackPane>
+      <StackPane prefHeight="196.0" prefWidth="262.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+         <children>
+            <ImageView fx:id="poorJack" fitHeight="192.0" fitWidth="266.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+               <image>
+                  <Image url="@images/poorJack.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="4.57" radius="2.9275" spread="1.0" width="9.14" />
+               </effect>
+            </ImageView>
+            <ImageView fx:id="poorJacksEyes" fitHeight="11.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/poorJacksEyes.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets bottom="50.0" right="115.0" />
+               </StackPane.margin>
+            </ImageView>
+            <ImageView fx:id="deadJackEyes" fitHeight="24.0" fitWidth="64.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/deadJackEyes.png" />
+               </image>
+               <StackPane.margin>
+                  <Insets bottom="50.0" right="120.0" />
+               </StackPane.margin>
+            </ImageView>
+         </children>
+         <GridPane.margin>
+            <Insets left="-20.0" />
+         </GridPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </StackPane>
+      <StackPane fx:id="player4Hand" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets bottom="20.0" />
+         </GridPane.margin>
       </StackPane>
    </children>
 </GridPane>

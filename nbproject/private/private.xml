@@ -3,10 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/molgress/Documents/School/CS3750/Team5_Slappers/src/slapjack/SlapJack.java</file>
-            <file>file:/C:/Users/molgress/Documents/School/CS3750/Team5_Slappers/src/slapjack/Player.java</file>
-            <file>file:/C:/Users/molgress/Documents/School/CS3750/Team5_Slappers/src/slapjack/SlapJackFXMLController.java</file>
-            <file>file:/C:/Users/molgress/Documents/School/CS3750/Team5_Slappers/src/slapjack/SlapJackDriver.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/CardImageSet.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/PlayingCards.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/SlapJack.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/SlapJackFXMLController.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/Player.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/Card.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/SlapJackCSS.css</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/GroupOfCards.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/SlapJackDriver.java</file>
+            <file>file:/C:/Users/doebo/Documents/School/CS3750/SlapJack/src/slapjack/Deck.java</file>
         </group>
     </open-files>
 </project-private>

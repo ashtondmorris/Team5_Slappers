@@ -8,6 +8,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -51,16 +53,33 @@ public class SlapJackFXMLController implements Initializable {
     @FXML
         ImageView keys2;
     @FXML
+        ImageView poorJack;
+    @FXML
+        ImageView poorJacksEyes; // between 129 and 115
+    @FXML
+        ImageView deadJackEyes;
+    @FXML
         Button playAgainButton;
+    @FXML
+        Button playButton;
+    @FXML
+        Label p1Controls;
+    @FXML
+        Label p2Controls;
+    
+    
+    
     
     private SlapJackDriver slapJackDriver;
     private Stage stage;
     private Scene scene;
+    private ParallelTransition scaredyJack;
     public ArrayList<ImageView> player1CardImages;
     public ArrayList<ImageView> player2CardImages;
     public ArrayList<ImageView> masterPileCardImages;
     public ArrayList<ArrayList<ImageView>> playerCardImages;
     public ArrayList<StackPane> playerHands;
+    
     
     AudioClip cardPlace1;
     AudioClip cardSlide1;
@@ -89,7 +108,96 @@ public class SlapJackFXMLController implements Initializable {
         cardPlace1 = new AudioClip(getClass().getResource("sounds/cardPlace1.wav").toExternalForm());
         cardSlide1 = new AudioClip(getClass().getResource("sounds/cardSlide1.wav").toExternalForm());
         FireImpact = new AudioClip(getClass().getResource("sounds/Fire_Impact1.wav").toExternalForm());
-        slapJackDriver = new SlapJackDriver(this); 
+        animatePoorJack();
+        playButton.setOnAction(e -> playButtonAction());
+    }
+    
+    private void animatePoorJack(){
+        TranslateTransition translateJack = new TranslateTransition(Duration.millis(50), poorJack);
+        translateJack.setFromX(poorJack.getX());
+        translateJack.setToX(poorJack.getX() + 2);
+                
+        TranslateTransition translateEyes = new TranslateTransition(Duration.millis(50), poorJacksEyes);
+        translateEyes.setFromX(poorJacksEyes.getTranslateX());
+        translateEyes.setToX(poorJacksEyes.getTranslateX() + 2);
+        
+        scaredyJack = new ParallelTransition();
+        scaredyJack.getChildren().addAll(translateJack, translateEyes);
+        
+        scaredyJack.setAutoReverse(true);
+        scaredyJack.setCycleCount(2000);
+        scaredyJack.play();
+    }
+    
+    private void playButtonAction(){
+        
+        playButton.setDisable(true);
+        
+        //--------------------
+        ImageView iView = new ImageView();
+            iView.setImage(new Image(getClass().getResource("images/slap.png").toExternalForm()));
+            iView.setFitWidth(150);
+            iView.setPreserveRatio(true);
+            iView.setSmooth(true);
+            iView.setOpacity(1);
+            iView.setTranslateY(player4Hand.getHeight() * -2.4);
+        
+        player4Hand.getChildren().add(iView);
+            
+        FadeTransition fade = new FadeTransition(Duration.millis(1000), iView);
+            fade.setToValue(0);
+            fade.setAutoReverse(false);
+        //--------------------
+        
+        fade.setOnFinished(e -> player4Hand.getChildren().remove(iView));
+        fade.play();
+        FireImpact.play();
+        
+        scaredyJack.stop();
+        deadJackEyes.setOpacity(1);
+        
+        FadeTransition fadeDeadEyes = new FadeTransition(Duration.millis(400), deadJackEyes);
+        fadeDeadEyes.setFromValue(1);
+        fadeDeadEyes.setToValue(0);
+        
+        FadeTransition fadeButton = new FadeTransition(Duration.millis(400), playButton);
+        fadeButton.setFromValue(1);
+        fadeButton.setToValue(0);
+        
+        FadeTransition fadeControl1 = new FadeTransition(Duration.millis(400), p1Controls);
+        fadeControl1.setToValue(1);
+        
+        FadeTransition fadeControl2 = new FadeTransition(Duration.millis(400), p2Controls);
+        fadeControl2.setToValue(1);
+        
+        FadeTransition fadekeys2 = new FadeTransition(Duration.millis(400), keys2);
+        fadekeys2.setToValue(1);
+        
+        FadeTransition fadekeys1 = new FadeTransition(Duration.millis(400), keys1);
+        fadekeys1.setToValue(1);
+        
+        FadeTransition fadeDiamond1 = new FadeTransition(Duration.millis(400), diamondTurn1);
+        fadeDiamond1.setToValue(1);
+        
+        FadeTransition fadePoorJack = new FadeTransition(Duration.millis(400), poorJack);
+        fadePoorJack.setToValue(0);
+        
+        FadeTransition fadePoorJacksEyes = new FadeTransition(Duration.millis(400), poorJacksEyes);
+        fadePoorJacksEyes.setToValue(0);
+        
+        ParallelTransition parallel = new ParallelTransition();
+        parallel.getChildren().addAll(fadeButton, fadeControl1, fadeControl2, 
+                                        fadekeys2, fadekeys1, fadeDiamond1, fadePoorJack, fadePoorJacksEyes, fadeDeadEyes);
+        
+        parallel.setDelay(Duration.millis(1000));
+        parallel.setOnFinished(e -> afterButtonClick());
+        parallel.play();
+        
+    }
+    
+    private void afterButtonClick(){
+        
+        slapJackDriver = new SlapJackDriver(this);
     }
     
     public void setStage(Stage stage){
@@ -422,7 +530,6 @@ public class SlapJackFXMLController implements Initializable {
         fade.play();
         
         playAgainButton.setOnAction(e -> buttonAction());
-        
     }
     
     private void buttonAction(){
