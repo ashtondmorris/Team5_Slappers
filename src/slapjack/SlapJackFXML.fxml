@@ -169,7 +169,7 @@
                   <Image url="@images/poorJacksEyes.png" />
                </image>
                <StackPane.margin>
-                  <Insets bottom="50.0" right="115.0" />
+                  <Insets bottom="50.0" right="129.0" />
                </StackPane.margin>
             </ImageView>
             <ImageView fx:id="deadJackEyes" fitHeight="24.0" fitWidth="64.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">

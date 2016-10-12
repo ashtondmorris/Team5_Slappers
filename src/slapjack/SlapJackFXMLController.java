@@ -74,6 +74,7 @@ public class SlapJackFXMLController implements Initializable {
     private Stage stage;
     private Scene scene;
     private ParallelTransition scaredyJack;
+    SequentialTransition sequence;
     public ArrayList<ImageView> player1CardImages;
     public ArrayList<ImageView> player2CardImages;
     public ArrayList<ImageView> masterPileCardImages;
@@ -113,19 +114,33 @@ public class SlapJackFXMLController implements Initializable {
     }
     
     private void animatePoorJack(){
+        sequence = new SequentialTransition();
+        
         TranslateTransition translateJack = new TranslateTransition(Duration.millis(50), poorJack);
         translateJack.setFromX(poorJack.getX());
         translateJack.setToX(poorJack.getX() + 2);
                 
-        TranslateTransition translateEyes = new TranslateTransition(Duration.millis(50), poorJacksEyes);
+        TranslateTransition translateEyes = new TranslateTransition(Duration.millis(100), poorJacksEyes);
         translateEyes.setFromX(poorJacksEyes.getTranslateX());
-        translateEyes.setToX(poorJacksEyes.getTranslateX() + 2);
+        translateEyes.setToX(poorJacksEyes.getTranslateX() + 0);
+        
+        TranslateTransition translateEyesRight = new TranslateTransition(Duration.millis(150), poorJacksEyes);
+        translateEyes.setFromX(poorJacksEyes.getTranslateX());
+        translateEyes.setToX(poorJacksEyes.getTranslateX() + 9);
+        translateEyes.setDelay(Duration.millis(300));
+        
+        sequence.getChildren().addAll(translateEyes, translateEyesRight);
+        sequence.setAutoReverse(true);
+        sequence.setCycleCount(2000);
+        
         
         scaredyJack = new ParallelTransition();
-        scaredyJack.getChildren().addAll(translateJack, translateEyes);
+        scaredyJack.getChildren().addAll(translateJack);
         
         scaredyJack.setAutoReverse(true);
         scaredyJack.setCycleCount(2000);
+
+        sequence.play();
         scaredyJack.play();
     }
     
@@ -154,6 +169,7 @@ public class SlapJackFXMLController implements Initializable {
         FireImpact.play();
         
         scaredyJack.stop();
+        sequence.stop();
         deadJackEyes.setOpacity(1);
         
         FadeTransition fadeDeadEyes = new FadeTransition(Duration.millis(400), deadJackEyes);
